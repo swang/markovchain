@@ -1,0 +1,2 @@
+never is this file: b.txt
+this is not file: c.txt

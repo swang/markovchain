@@ -1,0 +1,31 @@
+{
+  "name": "markovchain",
+  "version": "0.0.1",
+  "description": "generates a markov chain of words based on input files",
+  "main": "index.js",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "test": "mocha test/test.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/swang/markovchain"
+  },
+  "keywords": [
+    "markov chain",
+    "markov"
+  ],
+  "dependencies": {
+    "async": "~0.2.9"
+  },
+  "devDependencies": {
+    "chai": "~1.8.1"
+  },
+  "author": "Shuan Wang",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/swang/markovchain/issues"
+  }
+}

@@ -1,7 +1,8 @@
+/* global describe, it, beforeEach */
+'use strict';
+
 var MarkovChain = require('../index.js').MarkovChain
     , chai = require('chai')
-    , fs = require('fs')
-    , should = chai.should
     , expect = chai.expect
     , testMarkov;
 

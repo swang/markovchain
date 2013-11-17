@@ -1,8 +1,9 @@
+'use strict';
+
 var async = require('async')
   , fs = require('fs')
   , isType
   , MarkovChain
-
 
 isType = function(t) {
   return Object.prototype.toString.call(t).slice(8, -1).toLowerCase()
@@ -50,15 +51,8 @@ MarkovChain.prototype.countTotal = function(word) {
 }
 
 MarkovChain.prototype.process = function(callback) {
-  var c = 0
-    , countAll = 0
-    , curWord = this.startWord
-    , prop
-    , randNum
+  var curWord = this.startWord
     , readFiles = []
-    , total = 0
-    , tmpCount = 0
-    , useWord
 
   this.files.forEach(function(file) {
     readFiles.push(this.readFile(file))
@@ -67,9 +61,9 @@ MarkovChain.prototype.process = function(callback) {
   async.series(readFiles, function(err, retFiles) {
     this.parseFile(retFiles.toString())
     this.sentence = ""
-    var s
-      , rando;
-    while (this.wordBank[curWord] != null && this.fn()) {
+    var rando
+      , s
+    while (this.wordBank[curWord] !== null && this.fn()) {
       this.sentence += curWord + " "
 
       s = Object.keys(this.wordBank[curWord])
@@ -83,17 +77,19 @@ MarkovChain.prototype.process = function(callback) {
 
 MarkovChain.prototype.parseFile = function(file) {
   file.split("\n").forEach(function(lines) {
-    var words = lines.toLowerCase().split(" ").filter(function(w) { return (w.trim() != "") })
+    var curWord
       , i
-      , curWord
+      , nextWord
+      , words
 
+    words = lines.toLowerCase().split(" ").filter(function(w) { return (w.trim() !== "") })
     for (i = 0; i < words.length - 1; i++) {
       curWord = words[i].replace(/[^a-z]/ig, "")
       nextWord = words[i + 1].replace(/[^a-z]/ig, "")
-      if (this.wordBank[curWord] == null) {
+      if (this.wordBank[curWord] === null) {
         this.wordBank[curWord] = {}
       }
-      if (this.wordBank[curWord][nextWord] == null) {
+      if (this.wordBank[curWord][nextWord] === null) {
         this.wordBank[curWord][nextWord] = 1
       }
       else {

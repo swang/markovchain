@@ -63,9 +63,8 @@ MarkovChain.prototype.process = function(callback) {
     this.sentence = ""
     var rando
       , s
-    while (this.wordBank[curWord] !== null && this.fn()) {
+    while (this.wordBank[curWord] && this.fn()) {
       this.sentence += curWord + " "
-
       s = Object.keys(this.wordBank[curWord])
       rando = ~~(s.length * Math.random())
       curWord = s[~~(s.length * Math.random())]
@@ -86,10 +85,10 @@ MarkovChain.prototype.parseFile = function(file) {
     for (i = 0; i < words.length - 1; i++) {
       curWord = words[i].replace(/[^a-z]/ig, "")
       nextWord = words[i + 1].replace(/[^a-z]/ig, "")
-      if (this.wordBank[curWord] === null) {
+      if (!this.wordBank[curWord]) {
         this.wordBank[curWord] = {}
       }
-      if (this.wordBank[curWord][nextWord] === null) {
+      if (!this.wordBank[curWord][nextWord]) {
         this.wordBank[curWord][nextWord] = 1
       }
       else {

@@ -24,6 +24,7 @@ markovchain generates a markov chain of words based on input files
 ## CHANGELOG
 0.0.2
 - Small change to how words are stripped
+
 0.0.1
 - Initial Release
 

@@ -83,8 +83,8 @@ MarkovChain.prototype.parseFile = function(file) {
 
     words = lines.toLowerCase().split(" ").filter(function(w) { return (w.trim() !== "") })
     for (i = 0; i < words.length - 1; i++) {
-      curWord = words[i].replace(/[^a-z]/ig, "")
-      nextWord = words[i + 1].replace(/[^a-z]/ig, "")
+      curWord = words[i].replace(/^[^a-z]|[^a-z]$/ig, "")
+      nextWord = words[i + 1].replace(/^[^a-z]|[^a-z]$/ig, "")
       if (!this.wordBank[curWord]) {
         this.wordBank[curWord] = {}
       }

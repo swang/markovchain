@@ -72,7 +72,7 @@ MarkovChain.prototype.process = function(callback) {
     this.sentence = ""
     var rando
       , s
-    while (this.wordBank[curWord] && this.fn()) {
+    while (this.wordBank[curWord] && this.endFn()) {
       this.sentence += curWord + " "
       s = Object.keys(this.wordBank[curWord])
       rando = ~~(s.length * Math.random())
@@ -116,13 +116,14 @@ MarkovChain.prototype.end = function(fnStrOrNum) {
   var endType = isType(fnStrOrNum)
 
   if (endType === "function") {
-    this.fn = function() { return fnStrOrNum(this.sentence) }
+    this.endFn = function() { return fnStrOrNum(this.sentence) }
   }
   else if (endType === "string") {
-    this.fn = function() { return this.sentence.slice(-(fnStrOrNum.length + 1)).toLowerCase() !== " " + fnStrOrNum.toLowerCase() }
+    this.endFn = function() { return this.sentence.slice(-(fnStrOrNum.length + 1)).toLowerCase() !== " " + fnStrOrNum.toLowerCase() }
   }
-  else if (endType === "number") {
-    this.fn = function() { return this.sentence.split(" ").length <= fnStrOrNum }
+  else if (endType === "number" || fnStrOrNum === undefined) {
+    fnStrOrNum = fnStrOrNum || Infinity
+    this.endFn = function() { return this.sentence.split(" ").length <= fnStrOrNum }
   }
   else {
     throw new Error("Must pass a function, string or number into end()")

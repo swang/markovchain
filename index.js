@@ -3,6 +3,7 @@
 var async = require('async')
   , fs = require('fs')
   , isType
+  , pickRandom
   , MarkovChain
 
 isType = function(t) {
@@ -74,9 +75,7 @@ MarkovChain.prototype.process = function(callback) {
       , s
     while (this.wordBank[curWord] && this.endFn()) {
       this.sentence += curWord + " "
-      s = Object.keys(this.wordBank[curWord])
-      rando = ~~(s.length * Math.random())
-      curWord = s[~~(s.length * Math.random())]
+      curWord = pickRandom(words)
     }
     callback(null, this.sentence.trim())
 

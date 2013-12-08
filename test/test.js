@@ -78,15 +78,17 @@ describe('MarkovChain', function() {
     it('should set the end property with value, 5', function(done) {
       testMarkov.end(5)
       testMarkov.sentence = "this is a test of a test"
-      expect(testMarkov.endFn()).to.equal(false)
+      expect(testMarkov.endFn()).to.equal(true)
       testMarkov.sentence = "this is a test of"
-      expect(testMarkov.endFn()).to.equal(true)
+      expect(testMarkov.endFn()).to.equal(false)
       testMarkov.sentence = "this is a"
-      expect(testMarkov.endFn()).to.equal(true)
+      expect(testMarkov.endFn()).to.equal(false)
       done()
     })
     it('should set the end property with a function', function(done) {
-      testMarkov.end(function() { return this.sentence.split(" ").length > 3 || this.sentence.split(" ").slice(-1) === "test" }.bind(testMarkov))
+      testMarkov.end(function() { return this.sentence.split(" ").length > 3 || this.sentence.split(" ").slice(-1)[0] === "test" }.bind(testMarkov))
+      testMarkov.sentence = "test"
+      expect(testMarkov.endFn()).to.equal(true)
       testMarkov.sentence = "this is a test of a test"
       expect(testMarkov.endFn()).to.equal(true)
       testMarkov.sentence = "this is a test of"

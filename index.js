@@ -72,17 +72,16 @@ MarkovChain.prototype.process = function(callback) {
     var words
       , curWord
 
-    this.parseFile(retFiles.toString())
-    this.sentence = ""
     curWord = this.startFn(this.wordBank)
 
-    while (this.wordBank[curWord] && this.endFn()) {
-      words = Object.keys(this.wordBank[curWord])
-      this.sentence += curWord + " "
-      curWord = pickRandom(words)
-    }
+    this.parseFile(retFiles.toString())
+    this.sentence = curWord
 
-    this.sentence += curWord
+    while (this.wordBank[curWord] && !this.endFn()) {
+      words = Object.keys(this.wordBank[curWord])
+      curWord = pickRandom(words)
+      this.sentence += " " + curWord
+    }
 
     callback(null, this.sentence.trim())
 
@@ -140,11 +139,13 @@ MarkovChain.prototype.end = function(fnStrOrNum) {
     this.endFn = function() { return fnStrOrNum(this.sentence) }
   }
   else if (endType === "string") {
-    this.endFn = function() { return this.sentence.slice(-(fnStrOrNum.length + 1)).toLowerCase() !== " " + fnStrOrNum.toLowerCase() }
+    this.endFn = function() {
+      return this.sentence.split(" ").slice(-1)[0] !== fnStrOrNum
+    }
   }
   else if (endType === "number" || fnStrOrNum === undefined) {
     fnStrOrNum = fnStrOrNum || Infinity
-    this.endFn = function() { return this.sentence.split(" ").length <= fnStrOrNum }
+    this.endFn = function() { return this.sentence.split(" ").length > fnStrOrNum }
   }
   else {
     throw new Error("Must pass a function, string or number into end()")

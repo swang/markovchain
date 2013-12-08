@@ -51,7 +51,9 @@ MarkovChain.prototype.readFile = function(file) {
 
 MarkovChain.prototype.countTotal = function(word) {
   var total = 0
-  for (var prop in this.wordBank[word]) {
+    , prop
+
+  for (prop in this.wordBank[word]) {
     if (this.wordBank[word].hasOwnProperty(prop)) {
       total += this.wordBank[word][prop]
     }

@@ -17,7 +17,6 @@ pickRandom = function(arrayList) {
 MarkovChain = function(args) {
   if (!args) { args = {} }
   this.wordBank = {}
-  this.startWord = ""
   this.sentence = ""
   this.files = []
   if (args.files) {
@@ -61,19 +60,22 @@ MarkovChain.prototype.countTotal = function(word) {
 }
 
 MarkovChain.prototype.process = function(callback) {
-  var curWord = this.startWord
-    , readFiles = []
+  var readFiles = []
 
   this.files.forEach(function(file) {
     readFiles.push(this.readFile(file))
   }.bind(this))
 
   async.series(readFiles, function(err, retFiles) {
+    var words
+      , curWord
+
     this.parseFile(retFiles.toString())
     this.sentence = ""
-    var rando
-      , s
+    curWord = this.startFn(this.wordBank)
+
     while (this.wordBank[curWord] && this.endFn()) {
+      words = Object.keys(this.wordBank[curWord])
       this.sentence += curWord + " "
       curWord = pickRandom(words)
     }
@@ -106,8 +108,21 @@ MarkovChain.prototype.parseFile = function(file) {
   }.bind(this))
 }
 
-MarkovChain.prototype.start = function(word) {
-  this.startWord = word
+MarkovChain.prototype.start = function(fnStr) {
+  var startType = isType(fnStr)
+  if (startType === "string") {
+    this.startFn = function() {
+      return fnStr
+    }
+  }
+  else if (startType === "function") {
+    this.startFn = function(wordList) {
+      return fnStr(wordList)
+    }
+  }
+  else {
+    throw new Error("Must pass a function, or string into start()")
+  }
   return this
 }
 

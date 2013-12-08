@@ -89,10 +89,10 @@ MarkovChain.prototype.parseFile = function(file) {
       , nextWord
       , words
 
-    words = lines.toLowerCase().split(" ").filter(function(w) { return (w.trim() !== "") })
+    words = lines.split(" ").filter(function(w) { return (w.trim() !== "") })
     for (i = 0; i < words.length - 1; i++) {
-      curWord = words[i].replace(/^[^a-z]|[^a-z]$/ig, "")
-      nextWord = words[i + 1].replace(/^[^a-z]|[^a-z]$/ig, "")
+      curWord = this.normalize(words[i])
+      nextWord = this.normalize(words[i + 1])
       if (!this.wordBank[curWord]) {
         this.wordBank[curWord] = {}
       }
@@ -128,6 +128,10 @@ MarkovChain.prototype.end = function(fnStrOrNum) {
     throw new Error("Must pass a function, string or number into end()")
   }
   return this
+}
+
+MarkovChain.prototype.normalize = function(word) {
+  return word.replace(/\.$/ig, '')
 }
 
 module.exports.MarkovChain = MarkovChain

@@ -28,5 +28,6 @@
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/swang/markovchain/issues"
-  }
+  },
+  "engines" : { "node" : ">=0.6" }
 }

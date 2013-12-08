@@ -5,7 +5,7 @@ markovchain generates a markov chain of words based on input files
 [![build status](https://secure.travis-ci.org/swang/markovchain.png)](http://travis-ci.org/swang/markovchain)
 
 ## Requirements
-- [node v0.8+](http://nodejs.org/) (may work with v0.6 but no guarantees)
+- [node v0.6+](http://nodejs.org/)
 
 ## Install
 - npm install markovchain

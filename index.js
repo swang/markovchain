@@ -79,6 +79,9 @@ MarkovChain.prototype.process = function(callback) {
       this.sentence += curWord + " "
       curWord = pickRandom(words)
     }
+
+    this.sentence += curWord
+
     callback(null, this.sentence.trim())
 
   }.bind(this))

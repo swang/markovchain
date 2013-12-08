@@ -26,13 +26,14 @@ quotes
 This will read a file, "quotes.txt", generate a word chain, then attempt to generate sentences starting with the word
 "The" that are 5 words long, and then output to console.
 
+## Methods
 ### start
 The `start` method can take in either a `String`, in which case it will look to use that word to start the sentence.
 If you instead pass a `Function` with one parameter, `wordList`, you will be given the entire list of word chains in which
 you can decide what words to use to start a sentence. For example, you can generate sentences based on the number of times
 a word occurs, or if the word starts with a capital letter.
 
-Example
+Example:
 ```js
 
 var useUpperCase = function(wordList) {

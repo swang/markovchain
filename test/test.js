@@ -50,7 +50,7 @@ describe('MarkovChain', function() {
       testMarkov.use(["./test/fixtures/a.txt"]).start("not").end(5).process(function(err, resp) {
         expect(testMarkov.countTotal('this')).to.equal(2)
         expect(testMarkov.countTotal('is')).to.equal(2)
-        expect(testMarkov.countTotal('file')).to.equal(2)
+        expect(testMarkov.countTotal('file:')).to.equal(2)
         expect(testMarkov.countTotal('not')).to.equal(1)
         expect(resp.substring(0, 4)).to.equal("not ")
         done()
@@ -59,9 +59,9 @@ describe('MarkovChain', function() {
   })
 
   describe('start', function() {
-    it('should set the startWord property with value, "spot"', function(done) {
+    it('should set the start property with value, "spot"', function(done) {
       testMarkov.start("spot")
-      expect(testMarkov.startWord).to.equal("spot")
+      expect(testMarkov.startFn()).to.equal("spot")
       done()
     })
   })
@@ -70,31 +70,31 @@ describe('MarkovChain', function() {
     it('should set the end property with value, "tops"', function(done) {
       testMarkov.sentence = "this sentence ends with tops"
       testMarkov.end("tops")
-      expect(testMarkov.fn()).to.equal(false)
+      expect(testMarkov.endFn()).to.equal(false)
       testMarkov.end("nottops")
-      expect(testMarkov.fn()).to.equal(true)
+      expect(testMarkov.endFn()).to.equal(true)
       done()
     })
     it('should set the end property with value, 5', function(done) {
       testMarkov.end(5)
       testMarkov.sentence = "this is a test of a test"
-      expect(testMarkov.fn()).to.equal(false)
+      expect(testMarkov.endFn()).to.equal(false)
       testMarkov.sentence = "this is a test of"
-      expect(testMarkov.fn()).to.equal(true)
+      expect(testMarkov.endFn()).to.equal(true)
       testMarkov.sentence = "this is a"
-      expect(testMarkov.fn()).to.equal(true)
+      expect(testMarkov.endFn()).to.equal(true)
       done()
     })
     it('should set the end property with a function', function(done) {
       testMarkov.end(function() { return this.sentence.split(" ").length > 3 || this.sentence.split(" ").slice(-1) === "test" }.bind(testMarkov))
       testMarkov.sentence = "this is a test of a test"
-      expect(testMarkov.fn()).to.equal(true)
+      expect(testMarkov.endFn()).to.equal(true)
       testMarkov.sentence = "this is a test of"
-      expect(testMarkov.fn()).to.equal(true)
+      expect(testMarkov.endFn()).to.equal(true)
       testMarkov.sentence = "this is a test of the tester"
-      expect(testMarkov.fn()).to.equal(true)
+      expect(testMarkov.endFn()).to.equal(true)
       testMarkov.sentence = "this is a"
-      expect(testMarkov.fn()).to.equal(false)
+      expect(testMarkov.endFn()).to.equal(false)
       done()
     })
   })

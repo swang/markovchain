@@ -88,7 +88,9 @@ MarkovChain.prototype.process = function(callback) {
 }
 
 MarkovChain.prototype.parseFile = function(file) {
-  file.split("\n").forEach(function(lines) {
+  // splits sentences based on either an end line
+  // or a period (followed by a space)
+  file.split(/(?:\. |\n)/ig).forEach(function(lines) {
     var curWord
       , i
       , nextWord

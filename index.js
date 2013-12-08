@@ -9,10 +9,19 @@ isType = function(t) {
   return Object.prototype.toString.call(t).slice(8, -1).toLowerCase()
 }
 
-MarkovChain = function() {
+pickRandom = function(arrayList) {
+  return arrayList[~~(Math.random() * arrayList.length)]
+}
+
+MarkovChain = function(args) {
+  if (!args) { args = {} }
   this.wordBank = {}
   this.startWord = ""
   this.sentence = ""
+  this.files = []
+  if (args.files) {
+    return this.use(args.files)
+  }
   return this
 }
 

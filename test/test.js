@@ -1,4 +1,5 @@
-/* global describe, it, beforeEach */
+/* global describe, it, beforeEach, afterEach */
+/* jshint -W030 */
 'use strict';
 
 var MarkovChain = require('../index.js').MarkovChain
@@ -10,6 +11,10 @@ describe('MarkovChain', function() {
 
   beforeEach(function() {
     testMarkov = new MarkovChain()
+  })
+
+  afterEach(function() {
+    testMarkov = null;
   })
 
   describe('use', function() {
@@ -37,7 +42,7 @@ describe('MarkovChain', function() {
     it('return the contents of file a.txt', function(done) {
       testMarkov.use(["./test/fixtures/a.txt"]).start("this").end(5)
       testMarkov.readFile(testMarkov.files[0])(function(err, resp) {
-        expect(err).to.be.a('null')
+        expect(err).to.not.exist
         expect(resp).to.be.a('string')
         expect(resp).to.equal("this is file: a.txt\nthis is not file: b.txt\n")
         done()
@@ -48,6 +53,7 @@ describe('MarkovChain', function() {
   describe('process', function() {
     it('should process files into word banks', function(done) {
       testMarkov.use(["./test/fixtures/a.txt"]).start("not").end(5).process(function(err, resp) {
+        expect(err).to.not.exist
         expect(testMarkov.countTotal('this')).to.equal(2)
         expect(testMarkov.countTotal('is')).to.equal(2)
         expect(testMarkov.countTotal('file:')).to.equal(2)
@@ -60,9 +66,29 @@ describe('MarkovChain', function() {
 
   describe('start', function() {
     it('should set the start property with value, "spot"', function(done) {
-      testMarkov.start("spot")
+      testMarkov.start('spot')
       expect(testMarkov.startFn()).to.equal("spot")
       done()
+    })
+    it('should set the start property with a function, "onlyIfWordHasLetterI"', function(done) {
+      var onlyIfWordHasLetterI = function(wordList) {
+        var words = Object.keys(wordList);
+        var tmpList = words.filter(function(word) { return word.indexOf('i') > -1 })
+        return tmpList[~~(Math.random()*tmpList.length)]
+      }
+      testMarkov.use(['./test/fixtures/a.txt']).start(onlyIfWordHasLetterI).end(5).process(function(err, sent) {
+        expect(err).to.not.exist
+        expect(sent.split(' ')[0]).to.include('i')
+        expect(testMarkov.wordBank).to.eql({
+          this: { is: 2 },
+          is: { 'file:': 1, not: 1 },
+          'file:': { 'a.txt': 1, 'b.txt': 1 },
+          not: { 'file:': 1 }
+        })
+        done()
+
+      })
+
     })
   })
 

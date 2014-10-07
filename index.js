@@ -72,9 +72,8 @@ MarkovChain.prototype.process = function(callback) {
     var words
       , curWord
 
-    curWord = this.startFn(this.wordBank)
-
     this.parseFile(retFiles.toString())
+    curWord = this.startFn(this.wordBank)
     this.sentence = curWord
 
     while (this.wordBank[curWord] && !this.endFn()) {
@@ -82,10 +81,11 @@ MarkovChain.prototype.process = function(callback) {
       curWord = pickRandom(words)
       this.sentence += " " + curWord
     }
-
     callback(null, this.sentence.trim())
 
   }.bind(this))
+
+  return this
 }
 
 MarkovChain.prototype.parseFile = function(file) {

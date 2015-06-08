@@ -141,7 +141,7 @@ MarkovChain.prototype.end = function(fnStrOrNum) {
   }
   else if (endType === "string") {
     this.endFn = function() {
-      return this.sentence.split(" ").slice(-1)[0] !== fnStrOrNum
+      return this.sentence.split(" ").slice(-1)[0] === fnStrOrNum
     }
   }
   else if (endType === "number" || fnStrOrNum === undefined) {

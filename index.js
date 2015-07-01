@@ -23,6 +23,18 @@ MarkovChain = function(args) {
   if (args.files) {
     return this.use(args.files)
   }
+
+  this.startFn = function(wordList) {
+    var k = Object.keys(wordList)
+    var l = k.length
+
+    return k[~~(Math.random()*l)]
+  }
+
+  this.endFn = function() {
+    return this.sentence.split(' ').length > 7
+  }
+
   return this
 }
 

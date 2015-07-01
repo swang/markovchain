@@ -95,7 +95,7 @@ MarkovChain.prototype.process = function(callback) {
     readFiles.push(this.readFile(file))
   }.bind(this))
 
-  async.series(readFiles, function(err, retFiles) {
+  async.parallel(readFiles, function(err, retFiles) {
     var words
       , curWord
 

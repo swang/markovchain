@@ -80,6 +80,18 @@ quotes
 - Cleanup
 
 ## CHANGELOG
+
+### NOTE ####
+0.0.5 IS PROBABLY THE LAST VERSION WITH THIS API. v1.0+ WILL PROBABLY START USING PROMISES RATHER THAN THIS INTERFACE
+------
+0.0.5
+- Added default startFn/endFn functions
+- use() now actually handles array of strings
+- Use async.parallel instead of async.series
+
+0.0.4
+- Fix undefined sentence if start was passed a function
+
 0.0.3
 - Passing a Function into `end` has changed a little bit, before the markov chain would continue until
 the Function passed returned false, now the Function being passed into end() should only return true when

@@ -3,8 +3,10 @@
 
 var async = require('async')
   , fs = require('fs')
+  , path = require('path')
   , isType
   , pickRandom
+  , kindaFile
   , MarkovChain
 
 isType = function(t) {
@@ -13,6 +15,10 @@ isType = function(t) {
 
 pickRandom = function(arrayList) {
   return arrayList[~~(Math.random() * arrayList.length)]
+}
+
+kindaFile = function(file) {
+  return file.indexOf('.' + path.sep) === 0 || file.indexOf(path.sep) === 0
 }
 
 MarkovChain = function(args) {
@@ -56,8 +62,16 @@ MarkovChain.prototype.use = function(files) {
 MarkovChain.prototype.readFile = function(file) {
   return function(callback) {
     fs.readFile(file, 'utf8', function(err, data) {
-      if (err) { return callback(err) }
-      callback(null, data)
+      if (err) {
+        // if the file does not exist,
+        // if `file` starts with ./ or /, assuming trying to be a file
+        // if `file` has a '.', and the string after that has no space, assume file
+        if (err.code === 'ENOENT' && !kindaFile(file)) {
+          return callback(null, file);
+        }
+        return callback(err)
+      }
+      process.nextTick(function() { callback(null, data) })
     })
   }
 }

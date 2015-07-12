@@ -162,18 +162,19 @@ MarkovChain.prototype.start = function(fnStr) {
 
 MarkovChain.prototype.end = function(fnStrOrNum) {
   var endType = isType(fnStrOrNum)
+  var self = this;
 
   if (endType === 'function') {
     this.endFn = function() { return fnStrOrNum(this.sentence) }
   }
   else if (endType === 'string') {
     this.endFn = function() {
-      return this.sentence.split(' ').slice(-1)[0] === fnStrOrNum
+      return self.sentence.split(' ').slice(-1)[0] === fnStrOrNum
     }
   }
   else if (endType === 'number' || fnStrOrNum === undefined) {
     fnStrOrNum = fnStrOrNum || Infinity
-    this.endFn = function() { return this.sentence.split(' ').length > fnStrOrNum }
+    this.endFn = function() { return self.sentence.split(' ').length > fnStrOrNum }
   }
   else {
     throw new Error('Must pass a function, string or number into end()')

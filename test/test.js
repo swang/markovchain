@@ -96,9 +96,9 @@ describe('MarkovChain', function() {
     it('should set the end property with value "tops"', function(done) {
       testMarkov.sentence = 'this sentence ends with tops'
       testMarkov.end('tops')
-      expect(testMarkov.endFn()).to.equal(false)
-      testMarkov.end('nottops')
       expect(testMarkov.endFn()).to.equal(true)
+      testMarkov.end('nottops')
+      expect(testMarkov.endFn()).to.equal(false)
       done()
     })
     it('should set the end property with value "5"', function(done) {

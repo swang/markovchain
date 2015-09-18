@@ -1,6 +1,6 @@
 {
   "name": "markovchain",
-  "version": "0.0.6",
+  "version": "0.0.7",
   "description": "generates a markov chain of words based on input files",
   "main": "index.js",
   "directories": {
@@ -30,5 +30,7 @@
   "bugs": {
     "url": "https://github.com/swang/markovchain/issues"
   },
-  "engines" : { "node" : ">=0.6" }
+  "engines": {
+    "node": ">=0.6"
+  }
 }

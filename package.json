@@ -31,6 +31,6 @@
     "url": "https://github.com/swang/markovchain/issues"
   },
   "engines": {
-    "node": ">=0.6"
+    "node": ">=0.8"
   }
 }

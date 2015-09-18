@@ -3,6 +3,7 @@
 var async = require('async')
   , fs = require('fs')
   , path = require('path')
+  , pickOneByWeight = require('pick-one-by-weight')
   , isType
   , pickRandom
   , kindaFile
@@ -104,8 +105,7 @@ MarkovChain.prototype.process = function(callback) {
     this.sentence = curWord
 
     while (this.wordBank[curWord] && !this.endFn()) {
-      words = Object.keys(this.wordBank[curWord])
-      curWord = pickRandom(words)
+      curWord = pickOneByWeight(this.wordBank[curWord])
       this.sentence += ' ' + curWord
     }
     callback(null, this.sentence.trim())

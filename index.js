@@ -5,16 +5,11 @@ var async = require('async')
   , path = require('path')
   , pickOneByWeight = require('pick-one-by-weight')
   , isType
-  , pickRandom
   , kindaFile
   , MarkovChain
 
 isType = function(t) {
   return Object.prototype.toString.call(t).slice(8, -1).toLowerCase()
-}
-
-pickRandom = function(arrayList) {
-  return arrayList[~~(Math.random() * arrayList.length)]
 }
 
 kindaFile = function(file) {

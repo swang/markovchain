@@ -1,6 +1,6 @@
 markovchain
 =========================================
-markovchain generates a markov chain of words based on input files
+markovchain generates a markov chain based on text passed into it.
 
 [![build status](https://secure.travis-ci.org/swang/markovchain.png)](http://travis-ci.org/swang/markovchain)
 
@@ -13,25 +13,25 @@ markovchain generates a markov chain of words based on input files
 ## Example
 
 ```js
-var MarkovChain = require('markovchain').MarkovChain
-  , quotes = new MarkovChain({ files: 'quotes.txt' })
+var MarkovChain = require('markovchain')
+  , fs = require('fs')
+  , quotes = new MarkovChain(fs.readFileSync('./quotes.txt'))
 
-quotes
-  .start('The') //
-  .end(5)
-  .process(function(err, s) {
-    console.log(s)
-  })
+console.log(quotes.start('The').end(5).process())
 ```
-This will read a file, "quotes.txt", generate a word chain, then attempt to generate sentences starting with the word
+This will read a file, "quotes.txt", generate a word chain, then attempt to
+generate sentences starting with the word
+
 "The" that are 5 words long, and then output to console.
 
 ## Methods
 ### start
-The `start` method can take in either a `String`, in which case it will look to use that word to start the sentence.
-If you instead pass a `Function` with one parameter, `wordList`, you will be given the entire list of word chains in which
-you can decide what words to use to start a sentence. For example, you can generate sentences based on the number of times
-a word occurs, or if the word starts with a capital letter.
+The `start` method can take in either a `String`, in which case it will look to
+use that word to start the sentence.
+If you instead pass a `Function` with one parameter, `wordList`, you will be
+given the entire list of word chains in which you can decide what words to use
+to start a sentence. For example, you can generate sentences based on the number
+of times a word occurs, or if the word starts with a capital letter.
 
 Example:
 ```js
@@ -40,21 +40,21 @@ var useUpperCase = function(wordList) {
   var tmpList = Object.keys(wordList).filter(function(word) { return word[0] >= 'A' && word[0] <= 'Z' })
   return tmpList[~~(Math.random()*tmpList.length)]
 }
-quotes
-  .start(useUpperCase)
-  .end()
-  .process(function(err, sentence) { console.log(sentence) })
+
+console.log(quotes.start(useUpperCase).end().process())
 ```
 
 ### end
 The `end` method can take a `String`, `Number`, or `Function`
 
-- If you pass a String, `str`, the markov chain will generate words until the word matches `str` or the generator
-can no longer find words to chain.
-- If you pass a Number, `num`, the markov chain will generate words until the sentence length matches `num` or the generator
-can no longer find words to chain.
-- If you pass a Function, `fn`, the markov chain will generate words until function `fn` returns true. `fn` will be passed one
-parameter, `sentence` that returns the generated sentence so far
+- If you pass a String, `str`, the markov chain will generate words until the
+word matches `str` or the generator can no longer find words to chain.
+- If you pass a Number, `num`, the markov chain will generate words until the
+sentence length matches `num` or the generator can no longer find words to
+chain.
+- If you pass a Function, `fn`, the markov chain will generate words until
+function `fn` returns true. `fn` will be passed one parameter, `sentence` that
+returns the generated sentence so far
 
 Example:
 ```js
@@ -63,23 +63,36 @@ var stopAfterFiveWords = function(sentence) {
   return sentence.split(" ").length >= 5
 }
 
-quotes
-  .start(useUpperCase)
-  .end(stopAfterFiveWords)
-  .process(function(err, sentence) {
-    console.log(sentence)
-  })
+console.log(quotes.start(useUpperCase).end(stopAfterFiveWords).process())
 ```
 
-- If you pass nothing in `end`, the markov chain will generate words until it can no longer find words to chain.
+- If you pass nothing in `end`, the markov chain will generate words until it
+can no longer find words to chain.
+
+### parse
+The `parse` function adds more content to the markov chain. This allows you to
+add more content later on, rather than needing all the next when you
+instantiate the markov chain.
+
+Example:
+```js
+var m = new MarkovChain('some text here')
+
+m.parse('add additional text')
+
+console.log(m.parse('more and more text').end(5).process())
+```
 
 ## Author
 - [Shuan Wang](https://github.com/swang) [(twitter)](https://twitter.com/swang) (author)
 
-## TODO
-- Cleanup
-
 ## CHANGELOG
+1.0.0
+- Deprecate older version. Still accessible with this library the same exact way
+  it was called before: `var MarkovChain = require('markovchain').MarkovChain`
+- This library now will be focused on the markov chain processing portion
+  rather than file processing. Thus all file processing related functions were
+  removed.
 
 ### NOTE ####
 0.0.6 IS PROBABLY THE LAST VERSION WITH THIS API.

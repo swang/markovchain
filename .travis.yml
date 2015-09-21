@@ -4,8 +4,6 @@ node_js:
   - "iojs"
   - "0.12"
   - "0.10"
-  - "0.8"
-before_install: "if [ `node -v` = 'v0.8.28' ]; then npm install -g npm@1.3.7; fi"
 notifications:
   email:
     - shuanwang@gmail.com

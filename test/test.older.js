@@ -2,7 +2,7 @@
 /* jshint -W030 */
 'use strict';
 
-var MarkovChain = require('../index.js').MarkovChain
+var MarkovChain = require('../older/index.js').MarkovChain
     , chai = require('chai')
     , expect = chai.expect
     , testMarkov;

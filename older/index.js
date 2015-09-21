@@ -39,7 +39,7 @@ MarkovChain = function(args) {
   return this
 }
 
-MarkovChain.prototype.VERSION = require('./package').version
+MarkovChain.prototype.VERSION = require('../package').version
 
 MarkovChain.prototype.use = function(files) {
   if (isType(files) === 'array') {

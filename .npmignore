@@ -1,5 +1,5 @@
 .travis.yml
 npm-debug.log
-test.js
+test*.js
 test.txt
 src/*

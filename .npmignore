@@ -1,5 +1,7 @@
+.jshintrc
 .travis.yml
 npm-debug.log
 test*.js
 test.txt
 src/*
+test/

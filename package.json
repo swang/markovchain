@@ -1,6 +1,6 @@
 {
   "name": "markovchain",
-  "version": "0.0.7",
+  "version": "1.0.0",
   "description": "generates a markov chain of words based on input files",
   "main": "lib/index.js",
   "directories": {

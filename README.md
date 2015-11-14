@@ -15,7 +15,7 @@ markovchain generates a markov chain based on text passed into it.
 ```js
 var MarkovChain = require('markovchain')
   , fs = require('fs')
-  , quotes = new MarkovChain(fs.readFileSync('./quotes.txt'))
+  , quotes = new MarkovChain(fs.readFileSync('./quotes.txt', 'utf8'))
 
 console.log(quotes.start('The').end(5).process())
 ```

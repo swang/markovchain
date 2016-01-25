@@ -1,2 +1,2 @@
-never is this file: b.txt
-this is not file: c.txt
+never is this file: b
+this is not file: c

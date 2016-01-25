@@ -1,2 +1,2 @@
-this is file: a.txt
-this is not file: b.txt
+this is file: a
+this is not file: b

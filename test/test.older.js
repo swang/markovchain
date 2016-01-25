@@ -45,7 +45,7 @@ describe('MarkovChain', function() {
       testMarkov.readFile(testMarkov.files[0])(function(err, resp) {
         expect(err).to.not.exist
         expect(resp).to.be.a('string')
-        expect(resp).to.equal('this is file: a.txt\nthis is not file: b.txt\n')
+        expect(resp).to.equal('this is file: a\nthis is not file: b\n')
         done()
       })
     })
@@ -83,7 +83,7 @@ describe('MarkovChain', function() {
         expect(testMarkov.wordBank).to.eql({
           this: { is: 2 },
           is: { 'file:': 1, not: 1 },
-          'file:': { 'a.txt': 1, 'b.txt': 1 },
+          'file:': { 'a': 1, 'b': 1 },
           not: { 'file:': 1 }
         })
         done()

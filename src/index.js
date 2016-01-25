@@ -7,7 +7,7 @@ const isType = (t) => {
 
 class MarkovChain {
   constructor(contents) {
-    this.wordBank = {}
+    this.wordBank = Object.create(null);
     this.sentence = ''
     this.parse(contents);
   }
@@ -35,7 +35,7 @@ class MarkovChain {
         let curWord = this.normalize(words[i])
         let nextWord = this.normalize(words[i + 1])
         if (!this.wordBank[curWord]) {
-          this.wordBank[curWord] = {}
+          this.wordBank[curWord] = Object.create(null);
         }
         if (!this.wordBank[curWord][nextWord]) {
           this.wordBank[curWord][nextWord] = 1

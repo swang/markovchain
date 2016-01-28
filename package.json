@@ -23,7 +23,6 @@
     "markov"
   ],
   "dependencies": {
-    "async": "~0.2.9",
     "pick-one-by-weight": "~1.0.0"
   },
   "devDependencies": {

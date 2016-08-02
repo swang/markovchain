@@ -1,4 +1,5 @@
-.jshintrc
+.DS_Store
+.eslintrc.json
 .travis.yml
 npm-debug.log
 test*.js

@@ -4,7 +4,8 @@ var async = require('async')
   , fs = require('fs')
   , path = require('path')
   , pickOneByWeight = require('pick-one-by-weight')
-  , isType
+
+var isType
   , kindaFile
   , MarkovChain
 
@@ -29,7 +30,7 @@ MarkovChain = function(args) {
     var k = Object.keys(wordList)
     var l = k.length
 
-    return k[~~(Math.random()*l)]
+    return k[~~(Math.random() * l)]
   }
 
   this.endFn = function() {
@@ -76,7 +77,8 @@ MarkovChain.prototype.countTotal = function(word) {
     , prop
 
   for (prop in this.wordBank[word]) {
-    if (this.wordBank[word].hasOwnProperty(prop)) {
+
+    if ({}.hasOwnProperty.call(this.wordBank[word], prop)) {
       total += this.wordBank[word][prop]
     }
   }
@@ -93,6 +95,10 @@ MarkovChain.prototype.process = function(callback) {
   async.parallel(readFiles, function(err, retFiles) {
     var words
       , curWord
+
+    if (err) {
+      return callback(err)
+    }
     this.parseFile(retFiles.toString())
 
     curWord = this.startFn(this.wordBank)
@@ -119,7 +125,7 @@ MarkovChain.prototype.parseFile = function(file) {
       , nextWord
       , words
 
-    words = lines.split(' ').filter(function(w) { return (w.trim() !== '') })
+    words = lines.split(' ').filter(function(w) { return w.trim() !== '' })
     for (i = 0; i < words.length - 1; i++) {
       curWord = this.normalize(words[i])
       nextWord = this.normalize(words[i + 1])
@@ -138,6 +144,7 @@ MarkovChain.prototype.parseFile = function(file) {
 
 MarkovChain.prototype.start = function(fnStr) {
   var startType = isType(fnStr)
+
   if (startType === 'string') {
     this.startFn = function() {
       return fnStr

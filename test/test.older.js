@@ -1,11 +1,10 @@
-/* global describe, it, beforeEach, afterEach */
-/* jshint -W030 */
+/* eslint global-require: 0, no-unused-expressions: 0 */
 'use strict';
 
 var MarkovChain = require('../lib/index.js').MarkovChain
-
     , chai = require('chai')
-    , expect = chai.expect
+
+var expect = chai.expect
     , testMarkov;
 
 describe('MarkovChain', function() {
@@ -34,7 +33,7 @@ describe('MarkovChain', function() {
       done()
     })
     it('should throw an error for non-array/non-string', function(done) {
-      expect(function() { testMarkov.use({ a: 'b' }) }).to.throw(Error)
+      expect(function() { testMarkov.use({ 'a': 'b' }) }).to.throw(Error)
       done()
     })
   })
@@ -75,16 +74,28 @@ describe('MarkovChain', function() {
       var onlyIfWordHasLetterI = function(wordList) {
         var words = Object.keys(wordList);
         var tmpList = words.filter(function(word) { return word.indexOf('i') > -1 })
-        return tmpList[~~(Math.random()*tmpList.length)]
+
+        return tmpList[~~(Math.random() * tmpList.length)]
       }
+
       testMarkov.use(['./test/fixtures/a.txt']).start(onlyIfWordHasLetterI).end(5).process(function(err, sent) {
         expect(err).to.not.exist
         expect(sent.split(' ')[0]).to.include('i')
         expect(testMarkov.wordBank).to.eql({
-          this: { is: 2 },
-          is: { 'file:': 1, not: 1 },
-          'file:': { 'a': 1, 'b': 1 },
-          not: { 'file:': 1 }
+          'this': {
+            'is': 2
+          },
+          'is': {
+            'file:': 1,
+            'not': 1
+          },
+          'file:': {
+            'a': 1,
+            'b': 1
+          },
+          'not': {
+            'file:': 1
+          }
         })
         done()
 

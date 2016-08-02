@@ -1,3 +1,4 @@
+/* eslint global-require: 0 */
 'use strict';
 
 const pickOneByWeight = require('pick-one-by-weight')
@@ -13,15 +14,17 @@ class MarkovChain {
     this.parse(contents);
   }
   startFn(wordList) {
-    let k = Object.keys(wordList)
-    let l = k.length
-    return k[~~(Math.random()*l)]
+    const k = Object.keys(wordList)
+    const l = k.length
+
+    return k[~~(Math.random() * l)]
   }
   endFn() {
     return this.sentence.split(' ').length > 7
   }
   process() {
     let curWord = this.startFn(this.wordBank)
+
     this.sentence = curWord
     while (this.wordBank[curWord] && !this.endFn()) {
       curWord = pickOneByWeight(this.wordBank[curWord])
@@ -31,10 +34,11 @@ class MarkovChain {
   }
   parse(text = '', parseBy = this.parseBy) {
     text.split(parseBy).forEach((lines) => {
-      let words = lines.split(' ').filter((w) => { return w.trim() !== '' })
+      const words = lines.split(' ').filter((w) => w.trim() !== '')
+
       for (let i = 0; i < words.length - 1; i++) {
-        let curWord = this._normalize(words[i])
-        let nextWord = this._normalize(words[i + 1])
+        const curWord = this._normalize(words[i])
+        const nextWord = this._normalize(words[i + 1])
 
         if (!this.wordBank[curWord]) {
           this.wordBank[curWord] = Object.create(null);
@@ -51,6 +55,7 @@ class MarkovChain {
   }
   start(fnStr) {
     const startType = isType(fnStr)
+
     if (startType === 'string') {
       this.startFn = () => fnStr
     }
@@ -64,7 +69,6 @@ class MarkovChain {
   }
   end(fnStrOrNum) {
     const endType = isType(fnStrOrNum)
-    var self = this;
 
     if (endType === 'function') {
       this.endFn = () => fnStrOrNum(this.sentence)
@@ -74,7 +78,7 @@ class MarkovChain {
     }
     else if (endType === 'number' || fnStrOrNum === undefined) {
       fnStrOrNum = fnStrOrNum || Infinity
-      this.endFn = () => self.sentence.split(' ').length > fnStrOrNum
+      this.endFn = () => this.sentence.split(' ').length > fnStrOrNum
     }
     else {
       throw new Error('Must pass a function, string or number into end()')
@@ -94,7 +98,8 @@ class MarkovChain {
   static get VERSION() {
     return require('../package').version
   }
-  static get MarkovChain() { // load older MarkovChain
+  static get MarkovChain() {
+    // load older MarkovChain
     return require('../older/index.js').MarkovChain
   }
 }

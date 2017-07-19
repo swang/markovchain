@@ -58,7 +58,7 @@ The `end` method can take a `String`, `Integer`, or `Function`
 - If you pass a String, `str`, the markov chain will generate words until the
 word matches `str` or the generator can no longer find words to chain.
 - If you pass an Integer, `int`, the markov chain will generate words until the
-sentence length matches `int` or the generator can no longer find words to
+sentence length (as measured by word count) matches `int` or the generator can no longer find words to
 chain.
 - If you pass a Function, `func`, the markov chain will generate words until
 function `func` returns true. `func` will be passed one parameter, `sentence`
